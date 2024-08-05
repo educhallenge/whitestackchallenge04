@@ -37,3 +37,8 @@ TEST SUITE: None
 ```
 
 ## VERIFICACIÓN
+
+<img src="./prometheus_graph_heavywork.PNG">
+
+
+<img src="./prometheus_target.PNG">
