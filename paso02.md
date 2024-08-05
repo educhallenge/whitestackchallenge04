@@ -116,7 +116,6 @@ EOF
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/ingress.yaml
-cat <<EOF > templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
