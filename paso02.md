@@ -47,5 +47,45 @@ e0781bc8667f: Mounted from library/python
 
 ## HELM CHARTS
 
+1. Creamos el directorio MYCHART y en dicho directorio creamos el archivo Chart.yaml con el contenido que vemos abajo
 
+```
+ubuntu@ubuntu:~/challenge-4$ mkdir MYCHART
+ubuntu@ubuntu:~/challenge-4$ cd MYCHART
+ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > Chart.yaml
+apiVersion: v2
+name: BOTTLE
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+EOF
+```
+2. En el subdirectorio "templates" creamos el archivo "deployment.yaml" con el siguiente contenido:
 
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ mkdir templates
+ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bottleapp
+  labels:
+    app: bottleapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bottleapp
+  template:
+    metadata:
+      labels:
+        app: bottleapp
+    spec:
+      containers:
+      - name: bottleapp
+        image: edual/bottleapp:1.0
+        ports:
+        - containerPort: 8080
+EOF
+```
