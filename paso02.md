@@ -61,7 +61,7 @@ version: 0.1.0
 appVersion: "1.16.0"
 EOF
 ```
-2. En el subdirectorio "templates" creamos el archivo "deployment.yaml" con el siguiente contenido:
+2. Creamos el subdirectorio "templates" y allí creamos el archivo "deployment.yaml" con el siguiente contenido:
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ mkdir templates
@@ -87,5 +87,52 @@ spec:
         image: edual/bottleapp:1.0
         ports:
         - containerPort: 8080
+EOF
+```
+
+3.  En el subdirectorio "templates" creamos el archivo "service.yaml" con el siguiente contenido:
+
+```
+cat <<EOF > templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bottleapp-service
+  namespace: challenger-011
+  labels:
+    app: bottleapp
+spec:
+  selector:
+    app: bottleapp
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+EOF
+```
+
+4.  En el subdirectorio "templates" creamos el archivo "ingress.yaml" con el siguiente contenido:
+
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/ingress.yaml
+cat <<EOF > templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bottle-ingress
+  namespace: challenger-011
+spec:
+  rules:
+  - host: mychallenge04.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bottle-service
+            port:
+              number: 8080
 EOF
 ```
