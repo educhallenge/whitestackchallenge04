@@ -175,7 +175,14 @@ replicaset.apps/bottleapp-645fc9d6bb   1         1         1       2m33s
 NAME                                       CLASS    HOSTS               ADDRESS         PORTS   AGE
 ingress.networking.k8s.io/bottle-ingress   <none>   mychallenge04.com   10.43.114.145   80      2m34s
 ```
+
+Verificamos que el ingress apunta el servicio bottleapp-service:8080 que a su vez apunta al ip del Pod 10.42.107.40:8080
 ```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl get pod -owide
+Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
+NAME                         READY   STATUS    RESTARTS   AGE     IP             NODE                                        NOMINATED NODE   READINESS GATES
+bottleapp-645fc9d6bb-fc9xj   1/1     Running   0          8m10s   10.42.107.40   whitestackchallenge-worker-f97ebc81-gbspf   <none>           <none>
+
 ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl describe ingress.networking.k8s.io/bottle-ingress
 Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 Name:             bottle-ingress
