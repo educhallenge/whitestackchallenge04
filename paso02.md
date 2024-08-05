@@ -93,7 +93,7 @@ EOF
 3.  En el subdirectorio "templates" creamos el archivo "service.yaml" con el siguiente contenido:
 
 ```
-cat <<EOF > templates/service.yaml
+ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
