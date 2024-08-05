@@ -61,7 +61,7 @@ version: 0.1.0
 appVersion: "1.16.0"
 EOF
 ```
-2. Creamos el subdirectorio "templates" y allí creamos el archivo "deployment.yaml" con el siguiente contenido:
+2. Creamos el subdirectorio "templates" y allí creamos el archivo "deployment.yaml" con el siguiente contenido. Notar que usamos el container "edual/bottleapp:1.0" que creamos en la sección anterior
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ mkdir templates
@@ -90,7 +90,7 @@ spec:
 EOF
 ```
 
-3.  En el subdirectorio "templates" creamos el archivo "service.yaml" con el siguiente contenido:
+3.  En el subdirectorio "templates" creamos el archivo "service.yaml" con el siguiente contenido. Notar que el servicio se llama ""bottleapp-service" y que damos el nombre "metrics" al puerto 8080 del servicio.  
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/service.yaml
@@ -112,7 +112,7 @@ spec:
 EOF
 ```
 
-4.  En el subdirectorio "templates" creamos el archivo "ingress.yaml" con el siguiente contenido:
+4.  En el subdirectorio "templates" creamos el archivo "ingress.yaml" con el siguiente contenido. Notar que ingress está apuntando al servicio "bottleapp-service""
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/ingress.yaml
@@ -131,7 +131,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: bottle-service
+            name: bottleapp-service
             port:
               number: 8080
 EOF
