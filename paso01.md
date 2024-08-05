@@ -21,7 +21,7 @@ from prometheus_client import Counter, generate_latest
 heavywork_metric = Counter('heavywork', 'heavywork metric')
 ```
 
-En la función heavywork() incluimos una línea que incrementará el contador "heavywork_metric" cada vez que se llame al método POST de la ruta /heavywork
+Incluimos la línea "heavywork_metric.inc()" que incrementará el contador "heavywork_metric" cada vez que se llame al método POST de la ruta /heavywork
 
 ```
 @app.post('/heavywork')
@@ -29,4 +29,82 @@ def heavywork():
     response.status = 202
     heavywork_metric.inc()
     return {"message": "Heavy work started"}
+```
+
+Creamos la ruta /metrics para que devuelva el contenido de la métrica heavywork_metric en texto plano
+
+```
+@app.route('/metrics')
+def metrics():
+    response.content_type = 'text/plain; charset=utf-8'
+    return generate_latest(heavywork_metric)
+```
+
+Después de hacer las modificaciones mencionadas arriba el archivo "app.py" queda de la siguiente forma:
+
+```
+ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ more app.py
+from bottle import Bottle, request, response
+from prometheus_client import Counter, generate_latest
+
+heavywork_metric = Counter('heavywork', 'heavywork metric')
+
+app = Bottle()
+
+@app.post('/heavywork')
+def heavywork():
+    response.status = 202
+    heavywork_metric.inc()
+    return {"message": "Heavy work started"}
+
+
+@app.post('/lightwork')
+def lightwork():
+    return {"message": "Light work done"}
+
+@app.route('/metrics')
+def metrics():
+    response.content_type = 'text/plain; charset=utf-8'
+    return generate_latest(heavywork_metric)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
+```
+
+Ejecutamos la aplicación
+```
+ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ python3 app.py
+Bottle v0.12.25 server starting up (using WSGIRefServer())...
+Listening on http://0.0.0.0:8080/
+Hit Ctrl-C to quit.
+```
+
+Desde una PC Windows hacemos las consultas HTTP con el comando CURL y notamos que el contador heavywork_total se incrementa cada vez que se llama al método POST de "192.168.0.116:8080/heavywork"
+
+```
+C:\>curl 192.168.0.116:8080/metrics
+# HELP heavywork_total heavywork metric
+# TYPE heavywork_total counter
+heavywork_total 0.0
+# HELP heavywork_created heavywork metric
+# TYPE heavywork_created gauge
+heavywork_created 1.722670485619919e+09
+
+
+C:\>curl -X POST 192.168.0.116:8080/heavywork
+{"message": "Heavy work started"}
+
+C:\>curl -X POST 192.168.0.116:8080/heavywork
+{"message": "Heavy work started"}
+
+C:\>curl -X POST 192.168.0.116:8080/lightwork
+{"message": "Light work done"}
+
+C:\>curl 192.168.0.116:8080/metrics
+# HELP heavywork_total heavywork metric
+# TYPE heavywork_total counter
+heavywork_total 2.0
+# HELP heavywork_created heavywork metric
+# TYPE heavywork_created gauge
+heavywork_created 1.722670485619919e+09
 ```
