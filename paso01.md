@@ -2,13 +2,13 @@
 
 ## CONFIGURACION
 
-Clonamos la aplicación desde el repositorio que nos compartieron
+1. Clonamos la aplicación desde el repositorio que nos compartieron
 
 ```
 git clone https://github.com/whitestack/ws-challenge-4.git
 ```
 
-Editamos el archivo requirements para que incluya también a prometheus_client como se ve abajo
+2. Editamos el archivo requirements para que incluya también a prometheus_client como se ve abajo
 
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ more requirements.txt
@@ -16,7 +16,7 @@ bottle==0.12.19
 prometheus_client==0.20.0
 ```
 
-En el archivo "app.py" agregamos las siguientes líneas para importar prometheus_client y crear el counter llamado "heavywork_metric"
+3. En el archivo "app.py" agregamos las siguientes líneas para importar prometheus_client y crear el counter llamado "heavywork_metric"
 
 ```
 from prometheus_client import Counter, generate_latest
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
 ## VERIFICACION
 
-Ejecutamos la aplicación
+1. Ejecutamos la aplicación
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ python3 app.py
 Bottle v0.12.25 server starting up (using WSGIRefServer())...
@@ -83,7 +83,7 @@ Listening on http://0.0.0.0:8080/
 Hit Ctrl-C to quit.
 ```
 
-Desde una PC Windows hacemos las consultas HTTP con el comando CURL y notamos que el contador heavywork_total se incrementa cada vez que se llama al método POST de "192.168.0.116:8080/heavywork"
+2. Desde una PC Windows hacemos las consultas HTTP con el comando CURL y notamos que el contador heavywork_total se incrementa cada vez que se llama al método POST de "192.168.0.116:8080/heavywork"
 
 ```
 C:\>curl 192.168.0.116:8080/metrics
