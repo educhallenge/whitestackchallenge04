@@ -30,7 +30,7 @@ Password:
 Login Succeeded
 ```
 
-Publicamos el container en el repositorio público Docker Hub
+Subimos el container al repositorio público Docker Hub
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ sudo docker image push edual/bottleapp:1.0
 The push refers to repository [docker.io/edual/bottleapp]
