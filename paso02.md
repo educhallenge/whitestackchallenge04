@@ -147,7 +147,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-## VERIFICACION
+## VERIFICACION CON HELM Y KUBECTL
 
 Verificamos el despliegue con "helm ls"
 ```
@@ -206,4 +206,37 @@ Events:
   Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
   Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
   Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
+```
+
+## VERIFICACION CON CURL
+
+Temporalmente creamos un container con la aplicación cURL y luego ingresamos al shell de dicho container
+
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl run mycurlpod --image=curlimages/curl -i --tty -- sh
+```
+
+Desde dicho shell podemos ejecutar cURL hacia el host "mychallenge04.com" con IP 10.43.114.145 que fueron definidos en el ingress. Vemos que la ruta /metric efectivamente está incrementando el contador cada vez que se hace un POST a la ruta /heavywork
+
+```
+~ $ curl -X POST http://10.43.114.145/heavywork -H 'Host: mychallenge04.com'
+{"message": "Heavy work started"}~ $
+
+~ $ curl -X POST http://10.43.114.145/lightwork -H 'Host: mychallenge04.com'
+{"message": "Light work done"}~ $
+
+~ $ curl -X POST http://10.43.114.145/lightwork -H 'Host: mychallenge04.com'
+{"message": "Light work done"}~ $
+~ $
+~ $
+~ $ curl -X POST http://10.43.114.145/heavywork -H 'Host: mychallenge04.com'
+{"message": "Heavy work started"}~ $
+~ $
+~ $ curl http://10.43.114.145/metrics -H 'Host: mychallenge04.com'
+# HELP heavywork_total heavywork metric
+# TYPE heavywork_total counter
+heavywork_total 2.0
+# HELP heavywork_created heavywork metric
+# TYPE heavywork_created gauge
+heavywork_created 1.7228299355643427e+09
 ```
