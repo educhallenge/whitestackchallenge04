@@ -227,11 +227,10 @@ Desde dicho shell podemos ejecutar cURL hacia el host "mychallenge04.com" con IP
 
 ~ $ curl -X POST http://10.43.114.145/lightwork -H 'Host: mychallenge04.com'
 {"message": "Light work done"}~ $
-~ $
-~ $
+
 ~ $ curl -X POST http://10.43.114.145/heavywork -H 'Host: mychallenge04.com'
 {"message": "Heavy work started"}~ $
-~ $
+
 ~ $ curl http://10.43.114.145/metrics -H 'Host: mychallenge04.com'
 # HELP heavywork_total heavywork metric
 # TYPE heavywork_total counter
@@ -239,6 +238,7 @@ heavywork_total 2.0
 # HELP heavywork_created heavywork metric
 # TYPE heavywork_created gauge
 heavywork_created 1.7228299355643427e+09
-```
+
 ~ $ exit
 Session ended, resume using 'kubectl attach mycurlpod -c mycurlpod -i -t' command when the pod is running
+```
