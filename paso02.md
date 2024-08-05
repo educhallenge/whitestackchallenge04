@@ -135,3 +135,15 @@ spec:
               number: 8080
 EOF
 ```
+
+5. Desplegamos el Chart para crear la aplicación
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$  helm install bottleapp . --namespace challenger-011
+NAME: bottleapp
+LAST DEPLOYED: Mon Aug  5 00:02:09 2024
+NAMESPACE: challenger-011
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
