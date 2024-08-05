@@ -1,10 +1,14 @@
 # PASO 0 DE CHALLENGE 04 : PROBAR ACCESO
 
+## CONFIGURACION
+
 Copiamos el archivo "whitestackchallenge.yaml" a nuestra máquina local Linux y luego creamos una variable de entorno KUBECONFIG que será usada para conectarnos al entorno remoto de Kubernetes
 
 ```
 ubuntu@ubuntu:~$ echo "export KUBECONFIG=~/challenge-4/whitestackchallenge.yaml" >> ~/.profile
 ```
+
+## VERIFICACION
 
 Probamos el acceso remoto listando los pods de Kubernetes remoto
 
