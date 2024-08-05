@@ -240,3 +240,5 @@ heavywork_total 2.0
 # TYPE heavywork_created gauge
 heavywork_created 1.7228299355643427e+09
 ```
+~ $ exit
+Session ended, resume using 'kubectl attach mycurlpod -c mycurlpod -i -t' command when the pod is running
