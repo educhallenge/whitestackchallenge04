@@ -38,21 +38,23 @@ TEST SUITE: None
 
 ## VERIFICACIÓN
 
-Verificamos con kubectl
+- Verificamos con kubectl
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl get servicemonitor -owide
 NAME                   AGE
 bottleservicemonitor   2m21s
 ```
 
-Hacemos port-forward para poder navegar a la web de Prometheus
+- Hacemos port-forward para poder navegar a la web de Prometheus
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl port-forward service/kube-prometheus-stack-prometheus 9090 --address="0.0.0.0" -n monitoring
 Forwarding from 0.0.0.0:9090 -> 9090
 ```
 
-Con un navegador web podemos ver que Prometheus descubrió el target en nuestro namespace challenger-011 como se ve en la figura de abajo.
+- Con un navegador web podemos ver que Prometheus descubrió el target en nuestro namespace challenger-011 como se ve en la figura de abajo.
+
 <img src="./prometheus_target.PNG">
 
-También podemos ver que Prometheus puede colectar la información "metrics" indicando que el contador "heavywork_total" subió a 2 como se muestra en la figura de abajo. Esto es debido a los 2 requests que se hicieron a la ruta /heavywork en el paso 02.
+- También podemos ver que Prometheus puede colectar la información "metrics" indicando que el contador "heavywork_total" subió a 2 como se muestra en la figura de abajo. Esto es debido a los 2 requests que se hicieron a la ruta /heavywork en el paso 02.
+
 <img src="./prometheus_graph_heavywork.PNG">
