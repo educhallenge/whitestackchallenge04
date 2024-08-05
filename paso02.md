@@ -16,7 +16,7 @@ drwxrwxr-x 4 ubuntu ubuntu 4.0K Aug  1 23:38 ..
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ sudo docker build -t edual/bottleapp:1.0 .
 ```
 
-Verificamos que se creó el container
+Verificamos que se creó el container localmente
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ sudo docker images
 REPOSITORY        TAG       IMAGE ID       CREATED         SIZE
@@ -30,7 +30,7 @@ Password:
 Login Succeeded
 ```
 
-Publicamos el container en Docker Hub
+Publicamos el container en el repositorio público Docker Hub
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ sudo docker image push edual/bottleapp:1.0
 The push refers to repository [docker.io/edual/bottleapp]
