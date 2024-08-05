@@ -5,6 +5,14 @@
 Vamos al directorio "app" del repositorio que clonamos en el paso 1  y ejecutamos el siguiente comando para crear el container de manera local
 
 ```
+ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ ls -hal
+total 20K
+drwxrwxr-x 2 ubuntu ubuntu 4.0K Aug  1 23:37 .
+drwxrwxr-x 4 ubuntu ubuntu 4.0K Aug  1 23:38 ..
+-rw-rw-r-- 1 ubuntu ubuntu  664 Aug  1 23:34 app.py
+-rw-rw-r-- 1 ubuntu ubuntu  450 Aug  1 06:06 Dockerfile
+-rw-rw-r-- 1 ubuntu ubuntu   42 Aug  1 23:37 requirements.txt
+
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ sudo docker build -t edual/bottleapp:1.0 .
 ```
 
