@@ -1,5 +1,7 @@
 # PASO 1 DE CHALLENGE 04 : ADAPTAR LA APLICACION WEB
 
+## CONFIGURACION
+
 Clonamos la aplicación desde el repositorio que nos compartieron
 
 ```
@@ -70,6 +72,8 @@ def metrics():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
 ```
+
+## VERIFICACION
 
 Ejecutamos la aplicación
 ```
