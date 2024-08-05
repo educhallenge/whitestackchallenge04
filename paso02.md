@@ -147,3 +147,56 @@ REVISION: 1
 TEST SUITE: None
 ```
 
+## VERIFICACION
+
+Verificamos el despliegue con "helm ls"
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ helm ls
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+bottleapp       challenger-011  1               2024-08-05 00:02:09.376585617 +0000 UTC deployed        BOTTLE-0.1.0    1.16.0
+```
+
+Verificamos que los objetos ingress, pod, service, deployment, replicaset hayan levantado correctmanete":
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl get all,ingress
+Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/bottleapp-645fc9d6bb-fc9xj   1/1     Running   0          2m32s
+
+NAME                        TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+service/bottleapp-service   ClusterIP   10.43.97.67   <none>        8080/TCP   2m33s
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/bottleapp   1/1     1            1           2m33s
+
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/bottleapp-645fc9d6bb   1         1         1       2m33s
+
+NAME                                       CLASS    HOSTS               ADDRESS         PORTS   AGE
+ingress.networking.k8s.io/bottle-ingress   <none>   mychallenge04.com   10.43.114.145   80      2m34s
+```
+```
+ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl describe ingress.networking.k8s.io/bottle-ingress
+Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
+Name:             bottle-ingress
+Labels:           app.kubernetes.io/managed-by=Helm
+Namespace:        challenger-011
+Address:          10.43.114.145
+Ingress Class:    <none>
+Default backend:  <default>
+Rules:
+  Host               Path  Backends
+  ----               ----  --------
+  mychallenge04.com
+                     /   bottleapp-service:8080 (10.42.107.40:8080)
+Annotations:         field.cattle.io/publicEndpoints:
+                       [{"addresses":["10.43.114.145"],"port":80,"protocol":"HTTP","serviceName":"challenger-011:bottleapp-service","ingressName":"challenger-011...
+                     meta.helm.sh/release-name: bottleapp
+                     meta.helm.sh/release-namespace: challenger-011
+Events:
+  Type    Reason  Age                    From                      Message
+  ----    ------  ----                   ----                      -------
+  Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
+  Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
+  Normal  Sync    2m13s (x3 over 2m57s)  nginx-ingress-controller  Scheduled for sync
+```
