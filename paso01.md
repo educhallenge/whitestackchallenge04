@@ -16,14 +16,16 @@ bottle==0.12.19
 prometheus_client==0.20.0
 ```
 
-3. En el archivo "app.py" agregamos las siguientes líneas para importar prometheus_client y crear el counter llamado "heavywork_metric"
+3. En el archivo "app.py" hacemos las siguientes modificaciones:
+
+- Agregamos las siguientes líneas para importar prometheus_client y crear el counter llamado "heavywork_metric"
 
 ```
 from prometheus_client import Counter, generate_latest
 heavywork_metric = Counter('heavywork', 'heavywork metric')
 ```
 
-Incluimos la línea "heavywork_metric.inc()" que incrementará el contador "heavywork_metric" cada vez que se llame al método POST de la ruta /heavywork
+- Incluimos la línea "heavywork_metric.inc()" que incrementará el contador "heavywork_metric" cada vez que se llame al método POST de la ruta /heavywork
 
 ```
 @app.post('/heavywork')
@@ -33,7 +35,7 @@ def heavywork():
     return {"message": "Heavy work started"}
 ```
 
-Creamos la ruta /metrics para que devuelva el contenido de la métrica heavywork_metric en texto plano
+- Creamos la ruta /metrics para que devuelva el contenido de la métrica heavywork_metric en texto plano
 
 ```
 @app.route('/metrics')
@@ -42,7 +44,7 @@ def metrics():
     return generate_latest(heavywork_metric)
 ```
 
-Después de hacer las modificaciones mencionadas arriba el archivo "app.py" queda de la siguiente forma:
+- Después de hacer las modificaciones mencionadas arriba el archivo "app.py" queda de la siguiente forma:
 
 ```
 ubuntu@ubuntu:~/challenge-4/ws-challenge-4/app$ more app.py
