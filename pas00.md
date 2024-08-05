@@ -10,23 +10,21 @@ Probamos el acceso remoto listando los pods de Kubernetes remoto
 
 ```
 ubuntu@ubuntu:~$ kubectl get pods -n challenger-011
+Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
+No resources found in challenger-011 namespace.
 ```
-> Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
-> No resources found in challenger-011 namespace.
-
 
 ```
 ubuntu@ubuntu:~$ kubectl get cm -n monitoring
+Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
+NAME                                                      DATA   AGE
+kube-root-ca.crt                                          1      76d
+prometheus-adapter-config                                 1      2d12h
+prometheus-kube-prometheus-stack-prometheus-rulefiles-0   35     76d
 ```
->Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
->NAME                                                      DATA   AGE
->kube-root-ca.crt                                          1      76d
->prometheus-adapter-config                                 1      2d12h
->prometheus-kube-prometheus-stack-prometheus-rulefiles-0   35     76d
 
 ```
 ubuntu@ubuntu:~$ kubectl get all -n monitoring
-```
 Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 NAME                                                            READY   STATUS    RESTARTS   AGE
 pod/kube-prometheus-stack-kube-state-metrics-65594f9476-d55w5   1/1     Running   0          76d
