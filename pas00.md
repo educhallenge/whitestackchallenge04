@@ -2,19 +2,19 @@
 
 Copiamos el archivo "whitestackchallenge.yaml" a nuestra máquina local Linux y luego creamos una variable de entorno KUBECONFIG que será usada para conectarnos al entorno remoto de Kubernetes
 
-'''
+```
 ubuntu@ubuntu:~$ echo "export KUBECONFIG=~/challenge-4/whitestackchallenge.yaml" >> ~/.profile
-''''
+```
 
 Probamos el acceso remoto listando los pods de Kubernetes remoto
 
-'''
+```
 ubuntu@ubuntu:~$ kubectl get pods -n challenger-011
 Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 No resources found in challenger-011 namespace.
-'''
+```
 
-'''
+```
 ubuntu@ubuntu:~$ kubectl get cm -n monitoring
 Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 NAME                                                      DATA   AGE
@@ -54,4 +54,4 @@ replicaset.apps/kube-prometheus-stack-operator-6459f9c556             1         
 
 NAME                                                           READY   AGE
 statefulset.apps/prometheus-kube-prometheus-stack-prometheus   1/1     76d
-'''
+```
