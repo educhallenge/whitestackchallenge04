@@ -108,7 +108,7 @@ I0806 02:04:07.998973       1 httplog.go:132] "HTTP" verb="GET" URI="/apis/custo
 I0806 02:04:23.032481       1 httplog.go:132] "HTTP" verb="GET" URI="/apis/custom.metrics.k8s.io/v1beta1/namespaces/challenger-011/pods/%2A/heavywork_per_second?labelSelector=app%3Dbottleapp" latency="18.595486ms" userAgent="kube-controller-manager/v1.28.2+rke2r1 (linux/amd64) kubernetes/89a4ea3/system:serviceaccount:kube-system:horizontal-pod-autoscaler" audit-ID="4fde6f60-a5db-4111-a352-7741a1476883" srcIP="10.42.5.192:53482" resp=200
 ```
 
-También vemos que HPA ha levantado exitosamente y en este momento la métrica "heavywork_per_second" es 0.
+También vemos que HPA ha levantado exitosamente y en este momento la métrica "heavywork_per_second" es 0 requests por segundo y que el target es 10 requests por segundo.
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ kubectl get hpa
