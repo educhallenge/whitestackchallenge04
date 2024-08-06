@@ -64,14 +64,16 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
 
 ## VERIFICAR API SERVICE
 
-Verificamos que el API Service v1beta1.custom.metrics.k8s.io se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
+El API Service v1beta1.custom.metrics.k8s.io es importante porque permite
+se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
+
 ```
 ubuntu@ubuntu:~$ kubectl get apiservices | grep "prometheus\|NAME"
 NAME                                     SERVICE                         AVAILABLE   AGE
 v1beta1.custom.metrics.k8s.io            monitoring/prometheus-adapter   True        48m
-
+```
+```
 ubuntu@ubuntu:~$ kubectl describe apiservices v1beta1.custom.metrics.k8s.io
-Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 Name:         v1beta1.custom.metrics.k8s.io
 Namespace:
 Labels:       app.kubernetes.io/component=metrics
