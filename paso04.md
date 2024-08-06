@@ -3,6 +3,7 @@
 ## CONFIGURAR Y VERIFICAR PROMETHEUS ADAPTER
 
 - Pod y Servicio "prometheus-adapter"
+  
 Verificamos que el servicio "prometheus-adapter" está levantado por defecto en el namespace monitoring como se ve a continuación:
 
 ```
@@ -13,6 +14,7 @@ prometheus-adapter   ClusterIP   10.43.184.6   <none>        443/TCP   45m
 ```
 
 - Servicio "prometheus-operated"
+  
 Verificamos que el servicio "prometheus-operated" está en el namespace "monitoring" y usa el TCP 9090 como se ve a continuación:
 
 ```
