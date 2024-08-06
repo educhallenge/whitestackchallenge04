@@ -52,7 +52,7 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
 
 - Configmap "prometheus-adapter" y rules
 
-Además el mismo deployment de prometheus-adapter utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
+Además el mismo deployment de prometheus-adapter nos dice que utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
 ```
 ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep -A 4 Volumes
   Volumes:
@@ -62,54 +62,42 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
     Optional:  false
 ```
 
-
-
-## VERIFICAR API SERVICE
-
-El API Service v1beta1.custom.metrics.k8s.io es importante porque permitirá que el HPA (lo cual se desplegará en  el paso 5) pue
-se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
+Editamos el config map "prometheus-adapter" y pegamos la regla que vemos a continuación.
 
 ```
-ubuntu@ubuntu:~$ kubectl get apiservices | grep "prometheus\|NAME"
-NAME                                     SERVICE                         AVAILABLE   AGE
-v1beta1.custom.metrics.k8s.io            monitoring/prometheus-adapter   True        48m
+ubuntu@ubuntu:~$ kubectl edit cm prometheus-adapter -n monitoring
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  config.yaml: | 
+rules:
+- seriesQuery: 'heavywork_total{namespace!="",pod!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+      pod:
+        resource: pod
+  name:
+    matches: "^(.*)_total"
+    as: "${1}_per_second"
+  metricsQuery: 'sum(rate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>)'
+#### RESTO DEL OUTPUT OMITIDO POR BREVEDAD
 ```
-```
-ubuntu@ubuntu:~$ kubectl describe apiservices v1beta1.custom.metrics.k8s.io
-Name:         v1beta1.custom.metrics.k8s.io
-Namespace:
-Labels:       app.kubernetes.io/component=metrics
-              app.kubernetes.io/instance=prometheus-adapter
-              app.kubernetes.io/managed-by=Helm
-              app.kubernetes.io/name=prometheus-adapter
-              app.kubernetes.io/part-of=prometheus-adapter
-              app.kubernetes.io/version=v0.11.2
-              helm.sh/chart=prometheus-adapter-4.10.0
-Annotations:  meta.helm.sh/release-name: prometheus-adapter
-              meta.helm.sh/release-namespace: monitoring
-API Version:  apiregistration.k8s.io/v1
-Kind:         APIService
-Metadata:
-  Creation Timestamp:  2024-08-05T16:30:41Z
-  Resource Version:    84174142
-  UID:                 cffdba16-ff7a-4149-8c49-2c56d2be4946
-Spec:
-  Group:                     custom.metrics.k8s.io
-  Group Priority Minimum:    100
-  Insecure Skip TLS Verify:  true
-  Service:
-    Name:            prometheus-adapter
-    Namespace:       monitoring
-    Port:            443
-  Version:           v1beta1
-  Version Priority:  100
-Status:
-  Conditions:
-    Last Transition Time:  2024-08-05T16:31:20Z
-    Message:               all checks passed
-    Reason:                Passed
-    Status:                True
-    Type:                  Available
-Events:                    <none>
 
+Explicamos brevemente la regla. El "seriesQuery" recolecta las métricas del contador "heavywork_total" que obtiene de Prometheus.
 ```
+- seriesQuery: 'heavywork_total{namespace!="",pod!=""}'
+```
+
+La sección "name" sirve para crear una métrica a partir del nombre "heavywork_total" le quita la palabra "total" y le agrega las palabras "per_second" creando así la métrica "heavywork_per_second". Dicha métrica tendrá el valor calculado por la "metricsQuery" que en este caso calcula el promedio de los valores recibidos en "heavywork_total".
+```
+name:
+    matches: "^(.*)_total"
+    as: "${1}_per_second"
+  metricsQuery: 'sum(rate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>)'
+```
+
