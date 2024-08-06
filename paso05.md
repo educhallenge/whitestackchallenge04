@@ -52,8 +52,9 @@ Events:                    <none>
 
 ## CREACIÓN DE HPA
 
+Vamos a crear un HPA que escale el deployment llamado "bottleapp" con un mínimo de 1 réplica y un máximo de 5 réplicas. Para realizar dicho autoscaling utilizamos la métrica "heavywork_per_second" creada por "prometheus-adapter" en el paso anterior.
 
-Creamos el archivo "hpa.yaml" con la configuración que se muestra a continuación. Notar que el selector hace match a la app: bottelapp y el puerto "metrics" que fue definido previamente en el servicio que creamos en el paso 2
+Creamos el archivo "hpa.yaml" con la configuración que se muestra a continuación. 
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/hpa.yaml
