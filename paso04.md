@@ -2,6 +2,7 @@
 
 ## CONFIGURAR Y VERIFICAR PROMETHEUS ADAPTER
 
+- Pod y Servicio "prometheus-adapter"
 Verificamos que el servicio "prometheus-adapter" está levantado por defecto en el namespace monitoring como se ve a continuación:
 
 ```
@@ -11,7 +12,8 @@ NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
 prometheus-adapter   ClusterIP   10.43.184.6   <none>        443/TCP   45m
 ```
 
-El servicio "prometheus-operated" está en el namespace "monitoring" y usa el TCP 9090 como se ve a continuación:
+- Servicio "prometheus-operated"
+Verificamos que el servicio "prometheus-operated" está en el namespace "monitoring" y usa el TCP 9090 como se ve a continuación:
 
 ```
 ubuntu@ubuntu:~$ kubectl describe svc prometheus-operated -n monitoring
@@ -32,14 +34,19 @@ Endpoints:         10.42.107.35:9090
 Session Affinity:  None
 Events:            <none>
 ```
-El formato de la URL de Prometheus tiene la forma http://<prometheus-operated>.<namespace>.svc:<port>  Con la información del comando anterior averiguamos que el URL de Prometheus es http://prometheus-operated.monitoring.svc:9090
 
-Debemos verificar que la configuración del deployment de prometheus-adapter tiene el URL correcto para comunicarse con Prometheus como se ve a continuación:
+- URL de Prometheus para comunicación con "prometheus-adapter"
+
+El formato de la URL de Prometheus tiene el formato http://prometheus-operated.namespace.svc:port  Con la información del comando anterior averiguamos que el URL de Prometheus es http://prometheus-operated.monitoring.svc:9090
+
+Debemos verificar que la configuración del deployment de prometheus-adapter tiene dicho URL para comunicarse con Prometheus como se ve a continuación:
 
 ```
 ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep url
       --prometheus-url=http://prometheus-operated.monitoring.svc:9090
 ```
+
+- Configmap "prometheus-adapter" y rules
 
 Además el mismo deployment de prometheus-adapter utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
 ```
