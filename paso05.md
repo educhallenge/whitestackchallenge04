@@ -2,8 +2,9 @@
 
 ## VERIFICAR API SERVICE
 
-El API Service v1beta1.custom.metrics.k8s.io es importante porque permitirá que el HPA (lo cual se desplegará en  el paso 5) pue
-se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
+El API Service v1beta1.custom.metrics.k8s.io es importante porque es el intermediario que permitirá que el HPA pueda colectar la información de "prometheus-adapter".
+
+Por ello verificamos que dicho servicio está disponible, como se ve a continuación:
 
 ```
 ubuntu@ubuntu:~$ kubectl get apiservices | grep "prometheus\|NAME"
@@ -47,5 +48,12 @@ Status:
     Status:                True
     Type:                  Available
 Events:                    <none>
-
 ```
+
+## CREACIÓN DE HPA
+
+
+## VERIFICACIÓN
+
+
+
