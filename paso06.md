@@ -32,7 +32,7 @@ ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /heavywork
 
 ```
 
-- HPA SCALE UP
+** - HPA SCALE UP **
 
 En nuestro Linux local abrimos una terminal más para monitorear el status de HPA. Notamos que cuando excede el target de 10 se despliega automáticamente 1 pod más
 
