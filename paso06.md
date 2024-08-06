@@ -122,8 +122,16 @@ Events:
 Modificamos el archivo generate_load.py para soportar múltiples hilos y así generar mayor carga. En nuestro Linux local abrimos otra terminal para ejecutar el archivo con python y enviar el http request a la ruta /heavywork
 
 ```
-ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /heavywork
-202 {"message": "Heavy work started"}
-202 {"message": "Heavy work started"}
-202 {"message": "Heavy work started"}
-202 {"message": "Heavy work started"}
+ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /lightwork
+200 {"message": "Light work done"}
+200 {"message": "Light work done"}
+200 {"message": "Light work done"}
+```
+
+Verificamos en el HPA que el target sigue en 0/10 a pesar de que estamos enviando gran carga a la ruta /lightwork
+
+```
+ubuntu@ubuntu:~$ kubectl get hpa
+NAME        REFERENCE              TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+bottlehpa   Deployment/bottleapp   0/10      1         5         1          4h49m
+```
