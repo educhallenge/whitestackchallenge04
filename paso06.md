@@ -119,8 +119,8 @@ Events:
 
 
 ## ENVIAR CARGA A LA RUTA /LIGHTWORK
-Modificamos el archivo generate_load.py para soportar múltiples hilos y así generar mayor carga. En nuestro Linux local abrimos otra terminal para ejecutar el archivo con python y enviar el http request a la ruta /heavywork
 
+En nuestro Linux local abrimos otra terminal para ejecutar el archivo con python y enviar los http requests a la ruta /lightwork
 ```
 ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /lightwork
 200 {"message": "Light work done"}
@@ -128,7 +128,7 @@ ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /lightwork
 200 {"message": "Light work done"}
 ```
 
-Verificamos en el HPA que el target sigue en 0/10 a pesar de que estamos enviando gran carga a la ruta /lightwork
+Verificamos en el HPA que el target sigue en 0/10 a pesar de que estamos enviando gran carga a la ruta /lightwork y que las replicas se mantienenen 1.
 
 ```
 ubuntu@ubuntu:~$ kubectl get hpa
