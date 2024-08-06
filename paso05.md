@@ -53,37 +53,44 @@ Events:                    <none>
 ## CREACIÓN DE HPA
 
 
-Creamos el archivo "servicemonitor.yaml" con la configuración que se muestra a continuación.Notar que el selector hace match a la app: bottelapp y el puerto "metrics" que fue definido previamente en el servicio que creamos en el paso 2
+Creamos el archivo "hpa.yaml" con la configuración que se muestra a continuación. Notar que el selector hace match a la app: bottelapp y el puerto "metrics" que fue definido previamente en el servicio que creamos en el paso 2
 
 ```
-ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+ubuntu@ubuntu:~/challenge-4/MYCHART$ cat <<EOF > templates/hpa.yaml
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
 metadata:
-  name: bottleservicemonitor
-  labels:
-    app: bottleapp
-    release: kube-prometheus-stack
+  name: bottlehpa
+  namespace: challenger-011
 spec:
-  selector:
-    matchLabels:
-      app: bottleapp
-  endpoints:
-  -  port: metrics
-     interval: 5s
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bottleapp
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: heavywork_per_second
+      target:
+        type: AverageValue
+        averageValue: 10
 EOF
 ```
 
-Actualizamos la aplicación usando Helm para que incluye el "service monitor"
+Actualizamos la aplicación usando Helm para que incluye el "HPA"
 
 ```
 ubuntu@ubuntu:~/challenge-4/MYCHART$ helm upgrade bottleapp . --namespace challenger-011
 Release "bottleapp" has been upgraded. Happy Helming!
 NAME: bottleapp
-LAST DEPLOYED: Mon Aug  5 00:46:21 2024
+LAST DEPLOYED: Tue Aug  6 01:56:21 2024
 NAMESPACE: challenger-011
 STATUS: deployed
-REVISION: 2
+REVISION: 3
 TEST SUITE: None
 ```
 
