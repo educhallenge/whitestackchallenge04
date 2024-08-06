@@ -14,7 +14,6 @@ En nuestro Linux local hacemos un port-forward para poder enviar requests al ser
 
 ```
 ubuntu@ubuntu:~$ kubectl port-forward service/bottleapp-service 8080
-Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 
@@ -38,7 +37,6 @@ En nuestro Linux local abrimos una terminal más para monitorear el status de HP
 
 ```
 ubuntu@ubuntu:~$ kubectl describe hpa bottlehpa
-Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 Name:                              bottlehpa
 Namespace:                         challenger-011
 Labels:                            app.kubernetes.io/managed-by=Helm
@@ -64,7 +62,6 @@ Events:
 ```
 ```
 ubuntu@ubuntu:~$ kubectl get hpa
-Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
 NAME        REFERENCE              TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
 bottlehpa   Deployment/bottleapp   10227m/10   1         5         2          3h35m
 ```
