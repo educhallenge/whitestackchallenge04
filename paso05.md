@@ -137,5 +137,5 @@ Conditions:
 Events:           <none>
 ```
 
-NOTA: también podríamos usar el comando `kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1` para verificar las métricas de "prometheus-adapter" pero no tenemos permisos para ejecutar dicho comando
+NOTA: también podríamos usar el comando `kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1` para verificar las métricas de "prometheus-adapter" pero no tenemos autorización para ver ese recurso
 
