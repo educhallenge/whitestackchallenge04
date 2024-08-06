@@ -1,6 +1,6 @@
 # PASO 4 DE CHALLENGE 04 : INSTALAR Y CONFIGURAR PROMETHEUS ADAPTER
 
-## CONFIGURAR Y VERIFICAR PROMETHEUS ADAPTER
+## VERIFICAR DEPLOYMENT, PODS Y SERVICIOS NECESARIOS
 
 - Pod y Servicio "prometheus-adapter"
   
@@ -50,9 +50,11 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
       --prometheus-url=http://prometheus-operated.monitoring.svc:9090
 ```
 
-- Configmap "prometheus-adapter" y rules
+## CONFIGMAP Y RULES PARA "PROMETHEUS-ADAPTER"
 
-Además el mismo deployment de prometheus-adapter nos dice que utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
+- Verificar cuál es el configmap "prometheus-adapter"
+
+El mismo deployment de prometheus-adapter nos dice que utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
 ```
 ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep -A 4 Volumes
   Volumes:
@@ -62,7 +64,7 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
     Optional:  false
 ```
 
-Editamos el config map "prometheus-adapter" y pegamos la regla que vemos a continuación.
+- Editamos el config map "prometheus-adapter" y pegamos la "rule" que vemos a continuación.
 
 ```
 ubuntu@ubuntu:~$ kubectl edit cm prometheus-adapter -n monitoring
@@ -88,7 +90,9 @@ rules:
 #### RESTO DEL OUTPUT OMITIDO POR BREVEDAD
 ```
 
-Explicamos brevemente la regla. El "seriesQuery" recolecta las métricas del contador "heavywork_total" que obtiene de Prometheus.
+- Breve explicación de la "rule" que hemos pegado en el configmap
+
+El "seriesQuery" recolecta las métricas del contador "heavywork_total" que obtiene de Prometheus.
 ```
 - seriesQuery: 'heavywork_total{namespace!="",pod!=""}'
 ```
