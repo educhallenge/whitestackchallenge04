@@ -32,7 +32,7 @@ ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /heavywork
 
 ```
 
-### HPA SCALE UP
+- HPA SCALE UP
 
 En nuestro Linux local abrimos una terminal más para monitorear el status de HPA. Notamos que cuando excede el target de 10 se despliega automáticamente 1 pod más
 
@@ -80,7 +80,7 @@ bottleapp-645fc9d6bb-2w2nm   1/1     Running   0            75s
 bottleapp-645fc9d6bb-fc9xj   1/1     Running   0            25h
 ```
 
-### HPA SCALE DOWN
+- HPA SCALE DOWN
 
 Detenemos el script de python y el target monitoreado por el HPA vuelve a 0/10. Sin embargo no se hace scale down automáticamente sino que hay un timer por defecto de 5 minutos.  Luego de dicho timer las replicas se reducen a 1 como se ve a continuación.
 
@@ -116,3 +116,14 @@ Events:
   Normal   SuccessfulRescale             33m                    horizontal-pod-autoscaler  New size: 2; reason: pods metric heavywork_per_second above target
   Normal   SuccessfulRescale             3m46s                  horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 ```
+
+
+## ENVIAR CARGA A LA RUTA /LIGHTWORK
+Modificamos el archivo generate_load.py para soportar múltiples hilos y así generar mayor carga. En nuestro Linux local abrimos otra terminal para ejecutar el archivo con python y enviar el http request a la ruta /heavywork
+
+```
+ubuntu@ubuntu:~$ python3 generate_load.py 127.0.0.1 8080 /heavywork
+202 {"message": "Heavy work started"}
+202 {"message": "Heavy work started"}
+202 {"message": "Heavy work started"}
+202 {"message": "Heavy work started"}
