@@ -7,10 +7,12 @@
 Verificamos que el servicio "prometheus-adapter" está levantado por defecto en el namespace monitoring como se ve a continuación:
 
 ```
-ubuntu@ubuntu:~$ kubectl get svc prometheus-adapter -n monitoring
-Warning: Use tokens from the TokenRequest API or manually created secret-based tokens instead of auto-generated secret-based tokens.
-NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
-prometheus-adapter   ClusterIP   10.43.184.6   <none>        443/TCP   45m
+ubuntu@ubuntu:~$ kubectl get pod,svc -l  app.kubernetes.io/name=prometheus-adapter -n monitoring
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/prometheus-adapter-5776669bd7-6vltz   1/1     Running   0          6h5m
+
+NAME                         TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+service/prometheus-adapter   ClusterIP   10.43.184.6   <none>        443/TCP   8h
 ```
 
 - Servicio "prometheus-operated"
@@ -64,7 +66,7 @@ ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep
 
 ## VERIFICAR API SERVICE
 
-El API Service v1beta1.custom.metrics.k8s.io es importante porque permite
+El API Service v1beta1.custom.metrics.k8s.io es importante porque permitirá que el HPA (lo cual se desplegará en  el paso 5) pue
 se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
 
 ```
