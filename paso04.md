@@ -1,6 +1,8 @@
 # PASO 4 DE CHALLENGE 04 : INSTALAR Y CONFIGURAR PROMETHEUS ADAPTER
 
-Verificamos que el servicio está levantado por defecto en el namespace monitoring como se ve a continuación:
+## CONFIGURAR Y VERIFICAR PROMETHEUS ADAPTER
+
+Verificamos que el servicio "prometheus-adapter" está levantado por defecto en el namespace monitoring como se ve a continuación:
 
 ```
 ubuntu@ubuntu:~$ kubectl get svc prometheus-adapter -n monitoring
@@ -8,6 +10,50 @@ Warning: Use tokens from the TokenRequest API or manually created secret-based t
 NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
 prometheus-adapter   ClusterIP   10.43.184.6   <none>        443/TCP   45m
 ```
+
+El servicio "prometheus-operated" está en el namespace "monitoring" y usa el TCP 9090 como se ve a continuación:
+
+```
+ubuntu@ubuntu:~$ kubectl describe svc prometheus-operated -n monitoring
+Name:              prometheus-operated
+Namespace:         monitoring
+Labels:            managed-by=prometheus-operator
+                   operated-prometheus=true
+Annotations:       <none>
+Selector:          app.kubernetes.io/name=prometheus
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                None
+IPs:               None
+Port:              http-web  9090/TCP
+TargetPort:        http-web/TCP
+Endpoints:         10.42.107.35:9090
+Session Affinity:  None
+Events:            <none>
+```
+El formato de la URL de Prometheus tiene la forma http://<prometheus-operated>.<namespace>.svc:<port>  Con la información del comando anterior averiguamos que el URL de Prometheus es http://prometheus-operated.monitoring.svc:9090
+
+Debemos verificar que la configuración del deployment de prometheus-adapter tiene el URL correcto para comunicarse con Prometheus como se ve a continuación:
+
+```
+ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep url
+      --prometheus-url=http://prometheus-operated.monitoring.svc:9090
+```
+
+Además el mismo deployment de prometheus-adapter utiliza un configmap llamado también "prometheus-adapter" como se ve a continuación
+```
+ubuntu@ubuntu:~$ kubectl describe deploy prometheus-adapter -n monitoring | grep -A 4 Volumes
+  Volumes:
+   config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      prometheus-adapter
+    Optional:  false
+```
+
+
+
+## VERIFICAR API SERVICE
 
 Verificamos que el API Service v1beta1.custom.metrics.k8s.io se comunica correctamente con el servicio prometheus-adapter como se ve a continuación:
 ```
